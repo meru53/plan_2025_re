@@ -1,0 +1,17 @@
+# Node.js (React)
+node_modules/
+package-lock.json
+
+# Python (Django)
+venv/
+__pycache__/
+db.sqlite3
+
+# Docker
+*.log
+.env
+
+# VSCode や Mac/Windows の余計なファイル
+.vscode/
+.DS_Store
+.idea/
