@@ -4,7 +4,7 @@ const Fortune = () => {
     // 占いの種類とURL
     const fortunes = [
         { name: "🎴 タロット占い", url: "/fortune/tarot" },
-        { name: "❤️ 恋愛運占い", url: "/fortune/love" },
+        { name: "❤️ 恋愛運占い", url: "/fortune/cupid" },
         { name: "💼 仕事運占い", url: "/fortune/work" },
         { name: "🔮 未来予知", url: "/fortune/future" },
     ];
