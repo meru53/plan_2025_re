@@ -1,11 +1,27 @@
-from django.shortcuts import render
-# Create your views here.
-from rest_framework import generics
+import random
 
-from .models import Fortune
-from .serializers import FortuneSerializer
+from django.http import JsonResponse
+
+from .models import TarotCard
 
 
-class FortuneListCreate(generics.ListCreateAPIView):
-    queryset = Fortune.objects.all()
-    serializer_class = FortuneSerializer
+def get_random_tarot(request):
+    count = int(request.GET.get("count", 3))  # デフォルト3枚
+    all_cards = list(TarotCard.objects.all())  # DB から全タロットカードを取得
+
+    if not all_cards:
+        return JsonResponse({"error": "タロットカードが登録されていません"}, status=400)
+
+    selected_cards = random.sample(all_cards, min(count, len(all_cards)))  # ランダムに取得
+
+    response_data = [
+        {
+            "id": card.id,
+            "name": card.name,
+            "image": card.image.url if card.image else None,
+            "meaning": card.meaning,
+        }
+        for card in selected_cards
+    ]
+
+    return JsonResponse(response_data, safe=False)

@@ -68,3 +68,16 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+🔄 Dockerコンテナの変更を即時反映する方法 🚀
+✅ docker-compose down && docker-compose up だけでは変更が反映されない
+✅ docker-compose build は毎回新しいイメージを作るので時間がかかる
+✅ 理想は reload みたいに「変更を反映しつつコンテナをリスタート」する方法！
+
+やりたいこと	実行コマンド	備考
+ソースコード（React / Django）の変更を反映	docker-compose restart	イメージの再ビルド不要
+パッケージの追加後に反映	docker-compose up --build	軽量なビルドでコンテナ更新
+Dockerfile を変更した場合	docker-compose down && docker-compose up --build	完全リビルド
+
+✅ 普通のコード変更 → docker-compose restart でOK！
+✅ パッケージ追加後 → docker-compose up --build で軽量リビルド！

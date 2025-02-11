@@ -1,8 +1,6 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import CupidSelect from './pages/CupidSelect';
 import Fortune from './pages/Fortune';
-import TarotSelect from './pages/TarotSelect';
-import TopPage from './pages/TopPage';
 import BreakupCupid from './pages/fortune/cupid/BreakupCupid';
 import CompatibilityCupid from './pages/fortune/cupid/CompatibilityCupid';
 import CrushCupid from './pages/fortune/cupid/CrushCupid';
@@ -15,6 +13,8 @@ import HoroscopeTarot from './pages/fortune/tarot/HoroscopeTarot';
 import KabbalahTarot from './pages/fortune/tarot/KabbalahTarot';
 import OneCardTarot from './pages/fortune/tarot/OneCardTarot';
 import ThreeCardsTarot from './pages/fortune/tarot/ThreeCardsTarot';
+import TarotSelect from './pages/TarotSelect';
+import TopPage from './pages/TopPage';
 
 function App() {
     return (
