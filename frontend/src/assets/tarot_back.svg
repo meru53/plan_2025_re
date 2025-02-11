@@ -1,0 +1,28 @@
+<svg
+    width="150"
+    height="220"
+    viewBox="0 0 150 220"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+>
+    <!-- カードの背景 (角の丸い青い長方形) -->
+    <rect
+        x="5"
+        y="5"
+        width="140"
+        height="210"
+        rx="15"
+        ry="15"
+        fill="#007BFF"
+        stroke="#0056b3"
+        stroke-width="5"
+    />
+    
+    <!-- 黄色い星のマーク -->
+    <polygon
+        points="75,60 87,95 125,95 93,115 105,150 75,130 45,150 57,115 25,95 63,95"
+        fill="yellow"
+        stroke="gold"
+        stroke-width="3"
+    />
+</svg>

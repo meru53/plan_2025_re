@@ -1,67 +1,73 @@
-import React, { useState } from 'react';
-
-// タロットカードのデータ（例）
-const tarotCards = [
-    { name: "The Fool", meaning: "新しい始まり、自由、可能性" },
-    { name: "The Magician", meaning: "創造力、行動、力" },
-    { name: "The High Priestess", meaning: "直感、知恵、秘密" },
-    { name: "The Empress", meaning: "豊かさ、母性、創造" },
-    { name: "The Emperor", meaning: "安定、リーダーシップ、秩序" },
-    { name: "The Hierophant", meaning: "伝統、精神性、教育" },
-    { name: "The Lovers", meaning: "愛、関係、選択" },
-    { name: "The Chariot", meaning: "成功、コントロール、勝利" },
-    { name: "Strength", meaning: "勇気、忍耐、内なる強さ" },
-    { name: "The Hermit", meaning: "内省、探求、孤独" },
-    { name: "Wheel of Fortune", meaning: "運命、変化、サイクル" },
-    { name: "Justice", meaning: "公正、因果応報、真実" },
-    { name: "The Hanged Man", meaning: "新しい視点、犠牲、待機" },
-    { name: "Death", meaning: "終わり、新しい始まり、変化" },
-    { name: "Temperance", meaning: "調和、バランス、忍耐" },
-    { name: "The Devil", meaning: "誘惑、執着、束縛" },
-    { name: "The Tower", meaning: "崩壊、突然の変化、混乱" },
-    { name: "The Star", meaning: "希望、インスピレーション、癒し" },
-    { name: "The Moon", meaning: "幻想、不安、直感" },
-    { name: "The Sun", meaning: "喜び、成功、明るい未来" },
-    { name: "Judgement", meaning: "目覚め、再生、評価" },
-    { name: "The World", meaning: "完成、達成、統合" },
-];
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import TarotCardFlip from "../../../components/animations/TarotCardFlip"; // ✅ 正しい相対パスに修正
+import TarotShuffle from "../../../components/animations/TarotShuffle"; // ✅ 修正
 
 const ThreeCardsTarot = () => {
+    const navigate = useNavigate();
+    
+    const allCards = Array.from({ length: 78 }, (_, i) => i + 1);
+    const [visibleCards, setVisibleCards] = useState([]);
     const [selectedCards, setSelectedCards] = useState([]);
+    const [shuffling, setShuffling] = useState(false);
 
-    // 3枚のカードをランダムに引く
-    const drawCards = () => {
-        let shuffled = [...tarotCards].sort(() => 0.5 - Math.random()); // ランダムにシャッフル
-        setSelectedCards(shuffled.slice(0, 3)); // 上から3枚を選ぶ
+    useEffect(() => {
+        shuffleCards();
+    }, []);
+
+    const shuffleCards = () => {
+        setShuffling(true);
+        setTimeout(() => {
+            const shuffled = [...allCards].sort(() => Math.random() - 0.5);
+            setVisibleCards(shuffled.slice(0, 10));
+            setShuffling(false);
+        }, 3000);
+    };
+
+    const selectCard = (card) => {
+        if (selectedCards.length < 3) {
+            setSelectedCards([...selectedCards, card]);
+            setVisibleCards(visibleCards.filter(c => c !== card));
+        }
+    };
+
+    const finalizeSelection = () => {
+        if (selectedCards.length === 3) {
+            navigate("/fortune/tarot/three-cards-result", { state: { selectedCards } });
+        }
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-purple-300 to-pink-500 text-white p-6 text-center">
-            <h1 className="text-3xl font-bold">📜 三枚引き（過去・現在・未来）</h1>
-            <p className="mt-4 text-lg">過去・現在・未来を占うため、3枚のカードを引きます。</p>
+        <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center">
+            <h1 className="text-3xl font-bold mb-4">🔮 3枚引きタロット 🔮</h1>
 
-            <button
-                onClick={drawCards}
-                className="mt-6 bg-yellow-400 text-white text-xl px-6 py-3 rounded-full shadow-lg hover:bg-yellow-500 transition"
-            >
-                カードを引く
+            {/* シャッフルアニメーション */}
+            {shuffling ? <TarotShuffle onShuffleComplete={() => setShuffling(false)} /> : null}
+
+            {/* シャッフルボタン */}
+            <button onClick={shuffleCards} className="mb-4 px-6 py-2 bg-blue-500 text-white rounded-lg shadow-md">
+                シャッフル
             </button>
 
+            {/* カード選択 */}
+            <div className="grid grid-cols-5 gap-2">
+                {!shuffling && visibleCards.map((card, index) => (
+                    <TarotCardFlip key={index} card={card} onClick={selectCard} />
+                ))}
+            </div>
+
+            {/* 選択済みカード */}
+            <div className="mt-6 flex space-x-4">
+                {selectedCards.map((card, index) => (
+                    <img key={index} src={`/images/tarot_${card}.jpg`} alt={`Card ${card}`} className="w-20 h-32 rounded-lg" />
+                ))}
+            </div>
+
+            {/* 3枚選んだら決定ボタンを表示 */}
             {selectedCards.length === 3 && (
-                <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div className="p-4 bg-white text-black rounded-lg shadow-lg">
-                        <h2 className="text-xl font-bold">{selectedCards[0].name}</h2>
-                        <p className="mt-2">【過去】{selectedCards[0].meaning}</p>
-                    </div>
-                    <div className="p-4 bg-white text-black rounded-lg shadow-lg">
-                        <h2 className="text-xl font-bold">{selectedCards[1].name}</h2>
-                        <p className="mt-2">【現在】{selectedCards[1].meaning}</p>
-                    </div>
-                    <div className="p-4 bg-white text-black rounded-lg shadow-lg">
-                        <h2 className="text-xl font-bold">{selectedCards[2].name}</h2>
-                        <p className="mt-2">【未来】{selectedCards[2].meaning}</p>
-                    </div>
-                </div>
+                <button onClick={finalizeSelection} className="mt-6 px-6 py-2 bg-green-500 text-white rounded-lg shadow-md">
+                    このカードに決める
+                </button>
             )}
         </div>
     );
