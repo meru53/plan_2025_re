@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import TarotCardFlip from "../../../components/animations/TarotCardFlip"; // ✅ 正しい相対パスに修正
-import TarotShuffle from "../../../components/animations/TarotShuffle"; // ✅ 修正
+import FramerTest from "../../../components/animations/FramerTest";
+import TarotCardFlip from "../../../components/animations/TarotCardFlip";
+import TarotShuffle from "../../../components/animations/TarotShuffle";
 
 const ThreeCardsTarot = () => {
     const navigate = useNavigate();
@@ -39,36 +40,53 @@ const ThreeCardsTarot = () => {
 
     return (
         <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center">
-            <h1 className="text-3xl font-bold mb-4">🔮 3枚引きタロット 🔮</h1>
-
-            {/* シャッフルアニメーション */}
-            {shuffling ? <TarotShuffle onShuffleComplete={() => setShuffling(false)} /> : null}
-
-            {/* シャッフルボタン */}
-            <button onClick={shuffleCards} className="mb-4 px-6 py-2 bg-blue-500 text-white rounded-lg shadow-md">
-                シャッフル
-            </button>
-
-            {/* カード選択 */}
-            <div className="grid grid-cols-5 gap-2">
-                {!shuffling && visibleCards.map((card, index) => (
-                    <TarotCardFlip key={index} card={card} onClick={selectCard} />
-                ))}
+            <h1 className="text-3xl font-bold mb-4">🔮 3枚引きタロットshuusei 🔮</h1>
+            <div style={{backgroundColor: 'yellow'}}>
+                aaa
+            </div>
+            <div className="bg-black">
+                ppp
             </div>
 
-            {/* 選択済みカード */}
-            <div className="mt-6 flex space-x-4">
-                {selectedCards.map((card, index) => (
-                    <img key={index} src={`/images/tarot_${card}.jpg`} alt={`Card ${card}`} className="w-20 h-32 rounded-lg" />
-                ))}
-            </div>
+            {/* ✅ 枠（横幅100%、縦幅50%の領域・黒背景） */}
+            <div className="w-full h-1/2 max-w-4xl mx-auto bg-black shadow-lg rounded-lg p-4 overflow-hidden">
+                
+                {/* ✅ Framer Motion のテストコンポーネントを配置 */}
+                <div className="mb-6">
+                    <FramerTest />
+                </div>
 
-            {/* 3枚選んだら決定ボタンを表示 */}
-            {selectedCards.length === 3 && (
-                <button onClick={finalizeSelection} className="mt-6 px-6 py-2 bg-green-500 text-white rounded-lg shadow-md">
-                    このカードに決める
-                </button>
-            )}
+                {/* シャッフルアニメーション */}
+                {shuffling && <TarotShuffle onShuffleComplete={() => setShuffling(false)} />}
+
+                {/* シャッフルボタン */}
+                {!shuffling && (
+                    <button onClick={shuffleCards} className="mb-4 px-6 py-2 bg-blue-500 text-white rounded-lg shadow-md">
+                        シャッフル
+                    </button>
+                )}
+
+                {/* カード選択 */}
+                <div className="grid grid-cols-5 gap-2">
+                    {!shuffling && visibleCards.map((card, index) => (
+                        <TarotCardFlip key={index} card={card} onClick={() => selectCard(card)} />
+                    ))}
+                </div>
+
+                {/* 選択済みカード */}
+                <div className="mt-6 flex space-x-4">
+                    {selectedCards.map((card, index) => (
+                        <img key={index} src={`/images/tarot_${card}.jpg`} alt={`Card ${card}`} className="w-20 h-32 rounded-lg" />
+                    ))}
+                </div>
+
+                {/* 3枚選んだら決定ボタンを表示 */}
+                {selectedCards.length === 3 && (
+                    <button onClick={finalizeSelection} className="mt-6 px-6 py-2 bg-green-500 text-white rounded-lg shadow-md">
+                        このカードに決める
+                    </button>
+                )}
+            </div>
         </div>
     );
 };
