@@ -13,6 +13,7 @@ import HoroscopeTarot from './pages/fortune/tarot/HoroscopeTarot';
 import KabbalahTarot from './pages/fortune/tarot/KabbalahTarot';
 import OneCardTarot from './pages/fortune/tarot/OneCardTarot';
 import ThreeCardsTarot from './pages/fortune/tarot/ThreeCardsTarot';
+import ThreeCardsTarotResult from "./pages/fortune/tarot/ThreeCardsTarotResult";
 import TarotSelect from './pages/TarotSelect';
 import TopPage from './pages/TopPage';
 
@@ -32,6 +33,7 @@ function App() {
                 <Route path="/fortune/tarot" element={<TarotSelect />} />
                 <Route path="/fortune/tarot/OneCardTarot" element={<OneCardTarot />} />
                 <Route path="/fortune/tarot/ThreeCardsTarot" element={<ThreeCardsTarot />} />
+                <Route path="/fortune/tarot/ThreeCardsTarotResult" element={<ThreeCardsTarotResult />} />
                 <Route path="/fortune/tarot/hexagramTarot" element={<HexagramTarot />} />
                 <Route path="/fortune/tarot/CelticCrossTarot" element={<CelticCrossTarot />} />
                 <Route path="/fortune/tarot/HoroscopeTarot" element={<HoroscopeTarot />} />

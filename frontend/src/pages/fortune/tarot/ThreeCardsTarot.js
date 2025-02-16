@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import FramerTest from "../../../components/animations/FramerTest";
 import TarotCardFlip from "../../../components/animations/TarotCardFlip";
 import TarotShuffle from "../../../components/animations/TarotShuffle";
 
@@ -16,12 +15,23 @@ const ThreeCardsTarot = () => {
         shuffleCards();
     }, []);
 
+    // Fisher-Yates シャッフル（関数化）
+    const fisherYatesShuffle = (array) => {
+        const shuffled = [...array];  // 配列をコピー
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1)); // 0 以上 i 以下のランダムな数
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; // 位置を入れ替え
+        }
+        return shuffled;
+    };
+
+    // シャッフル処理
     const shuffleCards = () => {
-        setShuffling(true);
+        setShuffling(true);  // シャッフル開始
         setTimeout(() => {
-            const shuffled = [...allCards].sort(() => Math.random() - 0.5);
-            setVisibleCards(shuffled.slice(0, 10));
-            setShuffling(false);
+            const shuffled = fisherYatesShuffle(allCards); // 🔄 シャッフル関数を呼び出し
+            setVisibleCards(shuffled.slice(0, 10)); // 先頭10枚を表示
+            setShuffling(false);  // シャッフル完了
         }, 3000);
     };
 
@@ -34,28 +44,19 @@ const ThreeCardsTarot = () => {
 
     const finalizeSelection = () => {
         if (selectedCards.length === 3) {
-            navigate("/fortune/tarot/three-cards-result", { state: { selectedCards } });
+            navigate("/fortune/tarot/ThreeCardsTarotResult", { state: { selectedCards } });
         }
     };
 
     return (
         <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center">
-            <h1 className="text-3xl font-bold mb-4">🔮 3枚引きタロットshuusei 🔮</h1>
-            <div style={{backgroundColor: 'yellow'}}>
-                aaa
-            </div>
-            <div className="bg-black">
-                ppp
-            </div>
+            <h1 className="text-3xl font-bold mb-4">🔮 3枚引きタロット 🔮</h1>
 
             {/* ✅ 枠（横幅100%、縦幅50%の領域・黒背景） */}
             <div className="w-full h-1/2 max-w-4xl mx-auto bg-black shadow-lg rounded-lg p-4 overflow-hidden">
                 
                 {/* ✅ Framer Motion のテストコンポーネントを配置 */}
-                <div className="mb-6">
-                    <FramerTest />
-                </div>
-
+               
                 {/* シャッフルアニメーション */}
                 {shuffling && <TarotShuffle onShuffleComplete={() => setShuffling(false)} />}
 
